@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getWeather } from '../utils';
 
 const initialState = {
-    currentWeather: {},
+    currentWeather: [],
     citiesSearched: [],
     citiesSearchedMinusRecent: [],
     error: null,
@@ -32,16 +32,14 @@ const weather = createSlice({
     },
     extraReducers: {
         [fetchDaWeather.pending]: (state) => {
-            debugger;
             state.status = 'loading';
         },
         [fetchDaWeather.fulfilled]: (state, action) => {
           debugger;
           state.status = 'succeeded';
-          state.currentWeather = [...state.currentWeather, action.payload];
+          state.currentWeather = action.payload.list;
         },
         [fetchDaWeather.rejected]: (state, action) => {
-          debugger;
           state.status = 'failed';
           state.error = action.payload;
         }

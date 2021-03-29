@@ -40,7 +40,7 @@ export const WeatherForm = ({onSearchHandler}) => {
     >
       <Form.Item
         label="Search"
-        name="search"
+        name="city"
         rules={[{ required: true, message: 'Please enter a search term!' }]}
       >
         <Input/>

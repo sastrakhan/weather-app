@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row, Spin } from 'antd';
 import { DailyForecastCard } from '../../components/DailyForecastCard/DailyForecastCard';
 import { WeatherForm } from '../../components/WeatherForm/WeatherForm';
 import { fetchWeather, mergeDailyForecast } from '../../utils';
-import { useDispatch } from 'react-redux';
-import { fetchDaWeather } from '../../slices/weatherSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDaWeather } from '../../slices/weatherSlice';
+
+
 
 export const ForecastList = () => {
   const [loading, setLoading] = useState(false);
   const [weather, setWeather] = useState([]);
   const dispatch = useDispatch()
+  const currentWeather = useSelector(state => state.weatherR?.currentWeather);
 
-  const onSearchHandler = (location) => {
+  useEffect(() => {
+    debugger;
+    if (currentWeather.length) {
+      const mdf = mergeDailyForecast(currentWeather);
+      setWeather(mdf);
+    }
+  }, [currentWeather]);
+
+  const onSearchHandler2 = (location) => {
     try {
       setLoading(true);
       dispatch(fetchDaWeather(location));
-      debugger;
       //const mappedForecast = mergeDailyForecast(response?.list);
       //setWeather(mappedForecast);
       setLoading(false);
@@ -25,15 +35,13 @@ export const ForecastList = () => {
     setLoading(false);
   };
 
-  const onSearchHandler2 = async (location) => {
+  const onSearchHandler = async (location) => {
     try {
       setLoading(true);
-      const response = await fetchWeather(location);
-      debugger;
       dispatch(fetchDaWeather(location));
       debugger;
-      const mappedForecast = mergeDailyForecast(response?.list);
-      setWeather(mappedForecast);
+      //const mappedForecast = mergeDailyForecast(responseList);//response?.list);
+      //setWeather(mappedForecast);
       setLoading(false);
     } catch(error) {
       debugger;

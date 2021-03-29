@@ -10,8 +10,8 @@ import store from './store';
 const App = () => (
   <Provider store={store}>
     <h1>Helloworld React & Redux-Toolkit!</h1>
-    <Demo />
     <ForecastList />
+    <Demo />
   </Provider>
 );
 

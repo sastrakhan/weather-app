@@ -31,15 +31,15 @@ export const fetchWeather = ({search, units}) => {
     });
 };
 
-export const getWeather = async (city = '') => {
-  debugger;
+export const getWeather = async (searchParams = '') => {
   const params = {
     appid: process.env.REACT_APP_API_KEY,
-    q: city
+    q: searchParams
   };
 
   const queryParams = new URLSearchParams(params);
-  const queryString = Object.keys(params).length ? `?${queryParams}` : '';
+  //const queryString = Object.keys(params).length ? `?${queryParams}` : '';
+  const queryString = `?q=${params.q.city}&appid=${params.appid}&units=${params.q.units}`;
 
   try {
     const response = await api.get(`/data/2.5/forecast${queryString}`);
@@ -54,6 +54,7 @@ export const getWeather = async (city = '') => {
 };
 
 export const mergeDailyForecast = (weather) => {
+    debugger;
     return weather.reduce((dailyForecast, threeHourForecast, index) => {
       const currentDate = threeHourForecast?.dt_txt.split(' ')[0];
       const dateKey = getDateKey(currentDate);
